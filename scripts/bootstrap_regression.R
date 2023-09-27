@@ -251,3 +251,8 @@ my_forecast %>%
   ggplot(aes(x = .pred_mean)) +
   geom_histogram()
 exp(22)/1000000
+
+my_forecast <-  readRDS(
+  here::here("predict",
+  "bootstrap_prediction.RDS")
+)
