@@ -153,12 +153,15 @@ data_to_forecast <-
 
 data_to_forecast %>% View()
 my_df %>% glimpse()
+my_forecast <- 
 predict(
   my_df_fit$.workflow[[1]],
   data_to_forecast) %>% 
   cbind(data_to_forecast) %>% 
   tibble() %>% 
-  mutate(.pred = expm1(.pred)) %>% 
+  mutate(.pred = expm1(.pred)) 
+my_forecast %>% View()
+my_forecast%>% 
   saveRDS("dep_simplest_forecast.RDS")
 
 predict(
