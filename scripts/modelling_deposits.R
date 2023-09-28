@@ -144,15 +144,14 @@ predict(
 ### fforecast ----------------
 data_to_forecast <- 
   my_df_complete %>% 
-  filter(deposito ==0) %>% 
   mutate(
     qtd_ag = ifelse(qtd_ag == 0,1,qtd_ag),
     index = ifelse(index == 0,max(my_df$index),index),
     idade_cat = ifelse(idade_cat=="0", "até 1 ano",idade_cat),
-    anomes = max(my_df$anomes)
+    anomes = ifelse(anomes == 0,max(my_df$anomes),anomes)
   )
 
-data_to_forecast %>% glimpse()
+data_to_forecast %>% View()
 my_df %>% glimpse()
 predict(
   my_df_fit$.workflow[[1]],
@@ -160,16 +159,17 @@ predict(
   cbind(data_to_forecast) %>% 
   tibble() %>% 
   mutate(.pred = expm1(.pred)) %>% 
-  saveRDS("simplest_forecast_dep.RDS")
+  filter(is.na(.pred)) %>% 
+  saveRDS("dep_simplest_forecast.RDS")
 
 predict(
   my_df_fit$.workflow[[1]],
   my_df_complete) %>% 
-  cbind(my_df_complete) %>% 
+  cbind(my_df_complete) %>%    
   tibble() %>%
   mutate(
     .pred = expm1(.pred)) %>% 
-  saveRDS("simplest_predict_dep.RDS")
+  saveRDS("dep_simplest_predict.RDS")
 
 ## understand the model--------------------
 

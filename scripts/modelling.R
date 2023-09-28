@@ -144,13 +144,12 @@ predict(
 ### fforecast ----------------
 data_to_forecast <- 
 my_df_complete %>% 
-  filter(credito ==0) %>% 
   mutate(
     qtd_ag = ifelse(qtd_ag == 0,1,qtd_ag),
     index = ifelse(index == 0,max(my_df$index),index),
     idade_cat = ifelse(idade_cat=="0", "até 1 ano",idade_cat),
-    anomes = max(my_df$anomes)
-    )
+    anomes = ifelse(anomes == 0,max(my_df$anomes),anomes)
+  )
 
 data_to_forecast %>% glimpse()
 my_df %>% glimpse()
@@ -160,7 +159,7 @@ predict(
   cbind(data_to_forecast) %>% 
   tibble() %>% 
   mutate(.pred = expm1(.pred)) %>% 
-  saveRDS("simplest_forecast.RDS")
+  saveRDS("credit_simplest_forecast.RDS")
 
 predict(
   my_df_fit$.workflow[[1]],
@@ -169,7 +168,7 @@ predict(
   tibble() %>%
   mutate(
     .pred = expm1(.pred)) %>% 
-  saveRDS("simplest_predict.RDS")
+  saveRDS("credit_simplest_predict.RDS")
 
 ## understand the model--------------------
 
