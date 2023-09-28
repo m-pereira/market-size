@@ -159,7 +159,6 @@ predict(
   cbind(data_to_forecast) %>% 
   tibble() %>% 
   mutate(.pred = expm1(.pred)) %>% 
-  filter(is.na(.pred)) %>% 
   saveRDS("dep_simplest_forecast.RDS")
 
 predict(
